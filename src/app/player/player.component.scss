@@ -2,7 +2,7 @@
     width: 300px;
     display: flex;
     align-items: center;
-    background-color: salmon;
+    background-color: rgb(100, 100, 100, 0.6);
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     span {
@@ -15,4 +15,8 @@
         object-fit: cover;
         border-radius: 100%;
     }
+}
+
+.player-active {
+    background-color: sandybrown !important;
 }
