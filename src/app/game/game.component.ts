@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -12,11 +14,29 @@ export class GameComponent implements OnInit {
   drawCardAnimation = false;
   currentCard: string = '';
   game!: Game;
+  gameId: string;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private router: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame();
+    this.router.params.subscribe((params) => {
+      console.log(params.id);
+      this.gameId = params.id;
+
+      this
+      .firestore
+      .collection('games')
+      .doc(this.gameId)
+      .valueChanges()
+      .subscribe((game : any) => {
+        console.log('Game update', game);
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCard = game.playedCard;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+      });
+    }); 
   }
 
   newGame() {
@@ -27,7 +47,6 @@ export class GameComponent implements OnInit {
     if(!this.drawCardAnimation) {
       this.currentCard = String(this.game.stack.pop());
       this.drawCardAnimation = true;
-      
       this.game.currentPlayer++;
       this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
 
@@ -38,14 +57,20 @@ export class GameComponent implements OnInit {
     }
   }
 
-
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-
-    dialogRef.afterClosed().subscribe(name => {
+    dialogRef.afterClosed().subscribe((name: string) => {
       if(name && name.length > 0) {
-        this.game.players.push(name)
+        this.game.players.push(name);
+        this.saveGame();
       }
     });
   }
+
+  saveGame() {
+    this.firestore
+    .collection('games')
+    .doc(this.gameId)
+    .update(this.game.toJson())
+  };
 }
