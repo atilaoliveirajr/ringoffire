@@ -1,13 +1,20 @@
 .start-screen {
-    background-color: #404040;
-    width: 100vw;
-    height: 100vh;
-    max-width: 100%;
     display: flex;
+    background-color: #404040;
+    width: 100%;
+    height: 100%;
     justify-content: center;
     align-items: center;
-    img {
-        height: 100vh;
+    .front-page-container {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        .front-page-image {
+            width: 100%;
+            max-width: 730px;
+        }
     }
     .start-label-box {
         position: absolute;
@@ -22,6 +29,25 @@
             &:hover {
                 filter: brightness(1.2);
                 cursor: pointer;
+            }
+        }
+    }
+}
+
+@media(max-width: 600px) {
+    .start-screen {
+        .front-page-container {
+            margin-top: 150px;
+            align-items: flex-start;
+            .front-page-image {}
+        }
+        .start-label-box {
+            bottom: 130px;
+            margin-right: 10px;
+            margin-left: 10px;
+            img {
+                max-width: 100%;
+                &:hover {}
             }
         }
     }

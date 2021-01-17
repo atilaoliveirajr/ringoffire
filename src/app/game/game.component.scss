@@ -8,9 +8,10 @@
     align-items: center;
     .card-stack {
         position: relative;
+        top: -70px;
         img {
             position: absolute;
-            width: 120px;
+            width: 100px;
         }
     }
     .top-card {
@@ -24,12 +25,12 @@
 
 .draw-card {
     animation: draw-card-animation 2s ease-in-out;
-    transform: scale(1) translateX(140px) translateY(-250px) rotate(10deg);
+    transform: scale(1) translateX(40px) translateY(-220px) rotate(10deg);
 }
 
 .played-card {
     right: 12px;
-    transform: scale(1) translateX(140px) translateY(-250px) rotate(10deg);
+    transform: scale(1) translateX(40px) translateY(-220px) rotate(10deg);
 }
 
 @keyframes draw-card-animation {
@@ -37,30 +38,41 @@
         transform: scale(1.1);
     }
     33% {
-        transform: scale(1.7);
+        transform: scale(1.5);
     }
     66% {
-        transform: scale(1.7);
+        transform: scale(1.5);
     }
     100% {
-        transform: scale(1) translateX(140px) translateY(-250px) rotate(10deg);
+        transform: scale(1) translateX(40px) translateY(-220px) rotate(10deg);
     }
 }
 
-.player-position {
+.scroll-container {
     position: absolute;
     right: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 450px;
+    app-player {
+        margin-top: 10px;
+    }
 }
 
 .btn-add {
     position: absolute;
-    right: 32px;
-    bottom: 32px;
+    left: 32px;
+    top: 32px;
 }
 
 .pin-bottom {
     position: absolute;
-    bottom: 32px;
-    left: 100px;
-    right: 100px;
+    bottom: 15px;
+    left: 10px;
+    right: 10px;
+    height: 128px;
+    box-sizing: border-box;
 }
